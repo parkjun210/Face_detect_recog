@@ -85,7 +85,7 @@ pip install tqdm
 
 **Face recognition**
 
-아래 링크에서 미리 학습한 ckpt 폴더(arcface_casia)를 다운 받아 "SNU_FaceRecognition/checkpoints_best" 폴더 안에 배치한다.
+아래 링크에서 미리 학습한 ckpt 폴더(arcface_casia)를 다운 받아 "SNU_FaceRecognition/checkpoints_best" 폴더 생성 후 그 안에 배치한다.
 
 Ex. "SNU_FaceRecognition/checkpoints_best/arcface_casia/Backbone_Best.pth"
 
