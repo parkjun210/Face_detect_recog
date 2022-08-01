@@ -60,7 +60,7 @@ pip install tqdm
 
 
 # Directory 설명
-    |── Code_face_recog     : Face image recognition code 폴더
+    |── SNU_FaceRecognition : Face image recognition code 폴더
     |── data                : image & video inference용 input data가 저장되는 폴더
     |── library             : face recognition에 필요한 Library data(aligned face)를 모아놓는 폴더
     |── pipeline_tools
@@ -85,9 +85,9 @@ pip install tqdm
 
 **Face recognition**
 
-아래 링크에서 미리 학습한 ckpt 폴더(arcface_casia)를 다운 받아 "Code_face_recog/checkpoints_best" 폴더 안에 배치한다.
+아래 링크에서 미리 학습한 ckpt 폴더(arcface_casia)를 다운 받아 "SNU_FaceRecognition/checkpoints_best" 폴더 안에 배치한다.
 
-Ex. "Code_face_recog/checkpoints_best/arcface_casia/Backbone_Best.pth"
+Ex. "SNU_FaceRecognition/checkpoints_best/arcface_casia/Backbone_Best.pth"
 
 구글 드라이브 주소 : https://drive.google.com/drive/folders/1zjp58d4T3vB6UA6ReEgzdemOoyxTZPbP?usp=sharing
 
