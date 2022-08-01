@@ -38,7 +38,7 @@ https://github.com/biubug6/Pytorch_Retinaface
 
 아래 Github code 참조
 
-https://github.com/ZhaoJ9014/face.evoLVe
+https://github.com/Jaep0805/SNU_FaceRecognition
 
 # 실행 결과 예시 
 
