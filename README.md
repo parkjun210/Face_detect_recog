@@ -42,6 +42,8 @@ https://github.com/ZhaoJ9014/face.evoLVe
 
 # 실행 결과 예시 
 
+![Cast-of-Friends](https://user-images.githubusercontent.com/68048434/182092892-ac65e776-92ca-4a34-8d35-8078c82a77fc.jpg)
+![friends_lib](https://user-images.githubusercontent.com/68048434/182092896-e06dfa7a-55d8-4c08-a8f2-4c7c9bab4d34.jpg)
 
 
 # Environments
