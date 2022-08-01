@@ -11,7 +11,7 @@ from SNU_FaceDetection.utils.helpers import *
 
 from tqdm import tqdm
 
-from Code_face_recog.applications.align.align_trans import get_reference_facial_points, warp_and_crop_face
+from SNU_FaceRecognition.applications.align.align_trans import get_reference_facial_points, warp_and_crop_face
 
 
 def make_library(args):
