@@ -13,8 +13,8 @@ from tqdm import tqdm
 from time import time
 
 
-from Code_face_recog.applications.align.align_trans import get_reference_facial_points, warp_and_crop_face
-from Code_face_recog.model.backbone.model_irse import IR_SE_50
+from SNU_FaceRecognition.applications.align.align_trans import get_reference_facial_points, warp_and_crop_face
+from SNU_FaceRecognition.model.backbone.model_irse import IR_SE_50
 
 from pipeline_tools.recognition import perform_recog
 
@@ -37,7 +37,7 @@ def video_inference(args):
     WEIGHTS = "ckpt-best.pth"
 
     RECOG_EXP_NAME = args.recog_experiment_name
-    BACKBONE_DIR = os.path.join('Code_face_recog/checkpoints_best', RECOG_EXP_NAME)
+    BACKBONE_DIR = os.path.join('SNU_FaceRecognition/checkpoints_best', RECOG_EXP_NAME)
 
     # Inference Parameters
     CONFIDENCE_THRESHOLD = 0.99
