@@ -105,3 +105,8 @@ def perform_recog(device, embedding_size, backbone, target, source, thres = 0.1)
 
     return pred_label, confidence
 
+def do_recog(target, source, thres = 0.05):
+
+    pred_label, confidence = calculate_recog(target, source, thresholds = thres)
+
+    return pred_label, confidence
