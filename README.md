@@ -1,41 +1,19 @@
 # SNU: Face detection & recognition
 
-# Reference
-### paper:
-[RetinaFace: Single-Shot Multi-Level Face Localisation in the Wild] (CVPR 2020)
+## === 학습된 ckpt ===
 
-https://openaccess.thecvf.com/content_CVPR_2020/html/Deng_RetinaFace_Single-Shot_Multi-Level_Face_Localisation_in_the_Wild_CVPR_2020_paper.html
-
-    @inproceedings{deng2020retinaface,
-      title={Retinaface: Single-shot multi-level face localisation in the wild},
-      author={Deng, Jiankang and Guo, Jia and Ververas, Evangelos and Kotsia, Irene and Zafeiriou, Stefanos},
-      booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
-      pages={5203--5212},
-      year={2020}
-    }
-    
-[Arcface: Additive angular margin loss for deep face recognition] (CVPR 2019)
-
-https://openaccess.thecvf.com/content_CVPR_2019/html/Deng_ArcFace_Additive_Angular_Margin_Loss_for_Deep_Face_Recognition_CVPR_2019_paper.html
-
-    @InProceedings{Deng_2019_CVPR,
-    author = {Deng, Jiankang and Guo, Jia and Xue, Niannan and Zafeiriou, Stefanos},
-    title = {ArcFace: Additive Angular Margin Loss for Deep Face Recognition},
-    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-    month = {June},
-    year = {2019}
-    }
-
-
-### code: 
-**Face detection**
-
-아래 github 의 아키텍쳐를 참고하여 multi-stage로 재현함
-
-https://github.com/biubug6/Pytorch_Retinaface
 
 **Face recognition**
 
-아래 Github code 참조
+아래 링크에서 미리 학습한 ckpt 폴더(arcface_casia)를 다운 받아 "SNU_FaceRecognition/checkpoints_best" 폴더 생성 후 그 안에 배치한다.
 
-https://github.com/Jaep0805/SNU_FaceRecognition
+Ex. "SNU_FaceRecognition/checkpoints_best/arcface_casia/Backbone_Best.pth"
+
+구글 드라이브 주소 : https://drive.google.com/drive/folders/1zjp58d4T3vB6UA6ReEgzdemOoyxTZPbP?usp=sharing
+
+**Face detection**
+
+아래 링크에서 미리 학습한 ckpt 폴더(resnet_anc2_casT_fpn3)를 다운 받아 "Snu_FaceDetection/experiments" 폴더 생성 후 그 안에 배치한다.
+
+구글 드라이브 주소 : https://drive.google.com/drive/folders/1bbxIfmmlhs33uBkTasL6ksnPfabFFpNI?usp=sharing
+
