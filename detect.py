@@ -463,7 +463,7 @@ def recognize(args, device, net_recog, img_raw, imgpath, bbox, warped_face, libr
     # detect 함수로 검출된 face 영역에 대해서 recognition을 위한 feature vector로 변환
     target = img2feature(device, net_recog, warped_face)
 
-    pred_label, confidence = do_recog(target, library_face, thres = .05) #1.5
+    pred_label, confidence = do_recog(target, library_face, thres = 1.5) #1.5
 
     names = []
     if args.recognition_save_img:
@@ -506,7 +506,7 @@ def recognize(args, device, net_recog, img_raw, imgpath, bbox, warped_face, libr
 if __name__=="__main__":
 
     args, device, net_detect, net_recog = init(cfg_dir = "detect.cfg")
-    imgs_tensor, imgs_raw, imgs_path= make_dataset(device, img_dir = "data/sample_imgs_ispl")
+    imgs_tensor, imgs_raw, imgs_path= make_dataset(device, img_dir = "data/sample_imgs")
     library = set_library(device, net_recog, lib_dir = args.recognition_library_path)
 
     for img_tensor, img_raw, img_path in zip(imgs_tensor, imgs_raw, imgs_path):
