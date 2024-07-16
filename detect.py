@@ -22,6 +22,7 @@ from SNU_FaceRecognition.applications.align.align_trans import get_reference_fac
 from SNU_FaceRecognition.model.backbone.model_irse import IR_SE_50
 from pipeline_tools.recognition import *
 
+from SNU_FaceRecognition.model.backbone.model import build_model
 
 
 # deIdentification function 
@@ -140,14 +141,35 @@ def init(cfg_dir, useGPU = True):
     net_detect.eval()
     cudnn.benchmark = True
 
+
+
+
+
+
     # For Recog
     # #######################################################################
-    net_recog = IR_SE_50([112, 112])
-
-    if os.path.isfile(RECOGNITION_WEIGHT_FILE):
-        net_recog.load_state_dict(torch.load(RECOGNITION_WEIGHT_FILE))
+    
+    net_recog = build_model('ir_50')
+    statedict = torch.load(RECOGNITION_WEIGHT_FILE)
+    
+    new_state_dict = {}
+    for k, v in statedict.items():
+        if k.startswith('module.'):
+            new_state_dict[k[7:]] = v
+        else:
+            new_state_dict[k] = v
+    
+    net_recog.load_state_dict(new_state_dict)
     net_recog = net_recog.to(device)
     net_recog.eval()
+    
+    
+    # net_recog = IR_SE_50([112, 112])
+
+    # if os.path.isfile(RECOGNITION_WEIGHT_FILE):
+    #     net_recog.load_state_dict(torch.load(RECOGNITION_WEIGHT_FILE))
+    # net_recog = net_recog.to(device)
+    # net_recog.eval()
     # #######################################################################
 
     print(" 학습한 가중치 파일은 {0}".format(DETECTION_WEIGHT_FILE))
@@ -332,6 +354,17 @@ def detect(args, device, net_detect, img, img_raw, imgpath):
     return result_bboxes, warped_face
 
 
+def fuse_features_with_norm(stacked_embeddings, stacked_norms):
+
+    assert stacked_embeddings.ndim == 3 # (n_features_to_fuse, batch_size, channel)
+    assert stacked_norms.ndim == 3 # (n_features_to_fuse, batch_size, 1)
+    
+    pre_norm_embeddings = stacked_embeddings * stacked_norms
+    fused = pre_norm_embeddings.sum(dim=0)
+    fused = l2_norm(fused, axis=1)
+
+    return fused.to('cpu')
+
 # image를 받아와서 recognition network를 통해 feature vector로 변환하는 함수
 def img2feature(device, net_recog, imgs, embedding_size = 512):
 
@@ -345,8 +378,17 @@ def img2feature(device, net_recog, imgs, embedding_size = 512):
     imgs = normalize(imgs)
     imgs_ccropped = ccrop_batch(imgs)
     imgs_fliped = hflip_batch(imgs_ccropped)
-    imgs_emb_batch = net_recog(imgs_ccropped.to(device)).cpu() + net_recog(imgs_fliped.to(device)).cpu()
-    imgs_embed[0:] = l2_norm(imgs_emb_batch)
+    
+    embeds, norms = net_recog(imgs_ccropped.to(device))
+    flipped_embeddings, flipped_norms = net_recog(imgs_fliped.to(device))
+    stacked_embeddings = torch.stack([embeds, flipped_embeddings], dim=0)
+    stacked_norms = torch.stack([norms, flipped_norms], dim=0)
+    stack_embeds = fuse_features_with_norm(stacked_embeddings, stacked_norms)
+    
+    # imgs_emb_batch = net_recog(imgs_ccropped.to(device)).cpu() + net_recog(imgs_fliped.to(device)).cpu()
+    # imgs_embed[0:] = l2_norm(imgs_emb_batch)
+    
+    imgs_embed[0:] = stack_embeds
     feature = imgs_embed
 
     return feature
