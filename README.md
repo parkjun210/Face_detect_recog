@@ -17,3 +17,6 @@ Ex. "SNU_FaceRecognition/ckpt/Backbone_Best.pth"
 
 구글 드라이브 주소 : https://drive.google.com/drive/folders/1bbxIfmmlhs33uBkTasL6ksnPfabFFpNI?usp=sharing
 
+(2024년 업데이트 weight) 
+
+구글 드라이브 주소: https://drive.google.com/drive/folders/11ZVjvwctmiO9bPbnVqmn97GX8gGJj_01?usp=sharing
