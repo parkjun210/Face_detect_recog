@@ -4,6 +4,8 @@
 ### paper:
 [RetinaFace: Single-Shot Multi-Level Face Localisation in the Wild] (CVPR 2020)
 
+[TinaFace: Strong but Simple Baseline for Face Detection]
+
 https://openaccess.thecvf.com/content_CVPR_2020/html/Deng_RetinaFace_Single-Shot_Multi-Level_Face_Localisation_in_the_Wild_CVPR_2020_paper.html
 
     @inproceedings{deng2020retinaface,
@@ -11,6 +13,13 @@ https://openaccess.thecvf.com/content_CVPR_2020/html/Deng_RetinaFace_Single-Shot
       author={Deng, Jiankang and Guo, Jia and Ververas, Evangelos and Kotsia, Irene and Zafeiriou, Stefanos},
       booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
       pages={5203--5212},
+      year={2020}
+    }
+
+    @article{zhu2020tinaface,
+      title={Tinaface: Strong but simple baseline for face detection},
+      author={Zhu, Yanjia and Cai, Hongxiang and Zhang, Shuhan and Wang, Chenhao and Xiong, Yichao},
+      journal={arXiv preprint arXiv:2011.13183},
       year={2020}
     }
     
@@ -31,6 +40,7 @@ https://openaccess.thecvf.com/content_CVPR_2019/html/Deng_ArcFace_Additive_Angul
 **Face detection**
 
 아래 github 의 아키텍쳐를 참고하여 multi-stage로 재현함
+tinaface논문을 참고하여 iou branch를 추가함 (2024년 모델)
 
 https://github.com/biubug6/Pytorch_Retinaface
 
