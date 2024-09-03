@@ -1,15 +1,17 @@
 import torch
 import torch.utils.data as data
-import cv2
+import cv2, os
 import numpy as np
 
 class Dataset(data.Dataset):
-    def __init__(self, subset, preproc=None):
+    def __init__(self, dataset, subset, preproc=None):
+        self.dataset = dataset
         self.preproc = preproc
         self.imgs_path = []
         self.words = []
         self.subset = subset
-        txt_path = "data/" + "widerface/" + subset + '/label.txt'
+        self.preproc = preproc
+        txt_path = os.path.join("data", self.dataset, subset, 'label.txt')
         f = open(txt_path,'r')
         lines = f.readlines()
         isFirst = True
@@ -70,16 +72,19 @@ class Dataset(data.Dataset):
             annotation[0, 3] = label[1] + label[3]  # y2
 
             # landmarks
-            annotation[0, 4] = label[4]    # l0_x
-            annotation[0, 5] = label[5]    # l0_y
-            annotation[0, 6] = label[7]    # l1_x
-            annotation[0, 7] = label[8]    # l1_y
-            annotation[0, 8] = label[10]   # l2_x
-            annotation[0, 9] = label[11]   # l2_y
-            annotation[0, 10] = label[13]  # l3_x
-            annotation[0, 11] = label[14]  # l3_y
-            annotation[0, 12] = label[16]  # l4_x
-            annotation[0, 13] = label[17]  # l4_y
+            if len(label) >= 19: # or just sefl.dataset == 'widerface'
+                # landmarks
+                annotation[0, 4] = label[4]    # l0_x
+                annotation[0, 5] = label[5]    # l0_y
+                annotation[0, 6] = label[7]    # l1_x
+                annotation[0, 7] = label[8]    # l1_y
+                annotation[0, 8] = label[10]   # l2_x
+                annotation[0, 9] = label[11]   # l2_y
+                annotation[0, 10] = label[13]  # l3_x
+                annotation[0, 11] = label[14]  # l3_y
+                annotation[0, 12] = label[16]  # l4_x
+                annotation[0, 13] = label[17]  # l4_y
+
             if (annotation[0, 4]<0):
                 annotation[0, 14] = -1
             else:
