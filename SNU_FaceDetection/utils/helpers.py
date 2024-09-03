@@ -2,9 +2,12 @@ import torch
 import os
 import numpy as np
 
+if os.getcwd().endswith("Recog"):
+    os.sys.path.append(os.path.join(os.getcwd(), "SNU_FaceDetection"))
+
 from .box_utils import decode, decode_landm
 from .nms.py_cpu_nms import py_cpu_nms
-from layers.prior_box import PriorBox
+from ..layers.prior_box import PriorBox
 
 
 def var_or_cuda(x, device=None):

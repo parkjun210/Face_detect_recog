@@ -55,6 +55,7 @@ def init(cfg_dir, useGPU = True):
                         help='deidentified image save folder')
 
     args = parser.parse_args()
+
     
     if os.path.exists(cfg_dir):
         # Config 파일로 부터 변수 내용을 가져온다.
@@ -117,6 +118,16 @@ def init(cfg_dir, useGPU = True):
     # weight 파일들
     DETECTION_WEIGHT_FILE = args.detection_weight_file
     RECOGNITION_WEIGHT_FILE = args.recognition_weight_file
+    
+    # set parameter for detection model    
+    if "resnet_anc2_casT_fpn3" in args.detection_weight_file:
+        DETECT_MODEL_VERSION = "retina"
+        NUM_ANCHOR = 2
+    elif "tina_iou_anc3_casT_fpn3" in args.detection_weight_file:
+        DETECT_MODEL_VERSION = "tina"
+        NUM_ANCHOR = 3        
+    else:
+        print(">>> CHECK FOR DETECTION WEIGHT FILE PATH {0}".format(args.detection_weight_file))  
 
 
     # Set up GPU
@@ -132,7 +143,8 @@ def init(cfg_dir, useGPU = True):
         device = torch.device("cpu")
 
     # Set up Network
-    net_detect = RetinaFace(phase='test')
+    # net_detect = RetinaFace(phase='test')
+    net_detect = RetinaFace(phase='test', version=DETECT_MODEL_VERSION, anchor_num=NUM_ANCHOR)
 
     checkpoint = torch.load(DETECTION_WEIGHT_FILE, map_location=device)
 
@@ -290,13 +302,13 @@ def detect(args, device, net_detect, img, img_raw, imgpath):
     # Forward
     _, out = net_detect(img)
 
-    loc, conf, landms = out
+    loc, conf, landms, ious = out
 
     # Decode
     if args.infer_imsize_same:
         scores, boxes, landms = decode_output_inf(loc, conf, landms, prior_data, scale_box, scale_landm)
     else:
-        scores, boxes, landms = decode_output(img, loc, conf, landms, device)
+        scores, boxes, landms = decode_output(img, loc, conf, landms, device, net_detect.anchor_num)
 
 
     # NMS
