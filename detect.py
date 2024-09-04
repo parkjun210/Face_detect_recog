@@ -19,11 +19,8 @@ from tqdm import tqdm
 from SNU_FaceRecognition.applications.align.align_trans import get_reference_facial_points, warp_and_crop_face
 
 # For Recog
-from SNU_FaceRecognition.model.backbone.model_irse import IR_SE_50
+from SNU_FaceRecognition.model.backbone.model import IR_50
 from pipeline_tools.recognition import *
-
-from SNU_FaceRecognition.model.backbone.model import build_model
-
 
 # deIdentification function 
 # process_type = 2 : blurring image
@@ -161,27 +158,18 @@ def init(cfg_dir, useGPU = True):
     # For Recog
     # #######################################################################
     
-    net_recog = build_model('ir_50')
-    statedict = torch.load(RECOGNITION_WEIGHT_FILE)
-    
-    new_state_dict = {}
-    for k, v in statedict.items():
-        if k.startswith('module.'):
-            new_state_dict[k[7:]] = v
-        else:
-            new_state_dict[k] = v
-    
-    net_recog.load_state_dict(new_state_dict)
+
+    net_recog = IR_50([112, 112])
+    net_recog.load_state_dict(torch.load(RECOGNITION_WEIGHT_FILE))
     net_recog = net_recog.to(device)
     net_recog.eval()
     
-    
     # net_recog = IR_SE_50([112, 112])
-
     # if os.path.isfile(RECOGNITION_WEIGHT_FILE):
     #     net_recog.load_state_dict(torch.load(RECOGNITION_WEIGHT_FILE))
     # net_recog = net_recog.to(device)
     # net_recog.eval()
+    
     # #######################################################################
 
     print(" 학습한 가중치 파일은 {0}".format(DETECTION_WEIGHT_FILE))
