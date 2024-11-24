@@ -40,8 +40,8 @@ https://openaccess.thecvf.com/content/CVPR2022/html/Kim_AdaFace_Quality_Adaptive
 
 # 실행 결과 예시 
 
-![Cast-of-Friends](https://user-images.githubusercontent.com/68048434/182092892-ac65e776-92ca-4a34-8d35-8078c82a77fc.jpg)
-![friends_lib](https://user-images.githubusercontent.com/68048434/182092896-e06dfa7a-55d8-4c08-a8f2-4c7c9bab4d34.jpg)
+![Cast-of-Friends](results/imgs_results/Cast-of-Friends_recognized.jpg)
+![Cast-of-Friends](results/imgs_results/friends_lib_recognized.jpg)
 
 
 # Environments
@@ -62,15 +62,14 @@ pip install scikit-learn
 
 
 # Directory 설명
+    |── SNU_FaceDetection   : Face detection code 폴더
     |── SNU_FaceRecognition : Face image recognition 폴더
     |── data                : image & video inference용 input data가 저장되는 폴더
     |── library             : face recognition에 필요한 Library data(aligned face)를 모아놓는 폴더
-    |── pipeline_tools
-        ├──> recognition.py : detected face image와 library face image를 비교하는 코드
-    |── SNU_FaceDetection   : Face detection code 폴더
-    |── detect.cfg          : 입력 argument를 관리하는 파일
+    |── img_detect.cfg      : img_inference.py 입력 argument를 관리하는 파일
     |── img_inference.py    : image inference 코드
-    └── video_inference.py  : video inference 코드
+    |── video_detect.cfg    : video_inference.py 입력 argument를 관리하는 파일
+    |── video_inference.py  : video inference 코드
 
 
 
