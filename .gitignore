@@ -1,0 +1,5 @@
+SNU_FaceDetection/experiments/*
+!SNU_FaceDetection/experiments/.gitkeep
+
+SNU_FaceRecognition/ckpt/*
+!SNU_FaceRecognition/ckpt/.gitkeep
