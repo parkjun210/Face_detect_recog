@@ -27,7 +27,7 @@ NETWORK = 'resnet50'
 GPU_NUM = args.gpu_num
 
 # Directory Parameters
-DATASET = "widerface/"
+DATASET = args.dataset
 EXP_NAME = args.experiment_name
 EXP_DIR = 'experiments/' + EXP_NAME
 CKPT_DIR = os.path.join(EXP_DIR, "ckpt/")
@@ -41,8 +41,14 @@ NMS_THRESHOLD = 0.3
 EXP_NAME = args.experiment_name
 RES_DIR = 'experiments/' + EXP_NAME + '/results/'
 
+NUM_ANCHOR = args.num_anchor
+if 'tina' in EXP_NAME:
+    NUM_ANCHOR = 3
+else:
+    NUM_ANCHOR = 2
+
 # Set up dataset
-test_dataset = Dataset('val', preproc(img_dim=None, rgb_means=(104, 117, 123)))
+test_dataset = Dataset(DATASET, 'val', preproc(img_dim=None, rgb_means=(104, 117, 123)))
 test_dataloader = DataLoader(dataset=test_dataset,
                              batch_size=1,
                              num_workers=4,
@@ -65,7 +71,7 @@ num_images = len(test_dataset)
 f.write("Number of test images: " + str(num_images) + "\n\n")
 
 # Set up Network
-net = RetinaFace(phase='test')
+net = RetinaFace(phase='test', version=args.model_version, anchor_num=NUM_ANCHOR)
 output_path = CKPT_DIR + NETWORK + '_' + WEIGHTS
 checkpoint = torch.load(output_path)
 f.write("Start loading weights...\n")
@@ -92,10 +98,10 @@ for i, data in enumerate(test_dataloader):
     # Forward
     _, out = net(img)
 
-    loc, conf, landms = out
+    loc, conf, landms, ious = out
 
     # Decode
-    scores, boxes, landms = decode_output(img, loc, conf, landms, device)
+    scores, boxes, landms = decode_output(img, loc, conf, landms, device, NUM_ANCHOR)
 
     # NMS
     dets = do_nms(scores, boxes, landms, CONFIDENCE_THRESHOLD, NMS_THRESHOLD)

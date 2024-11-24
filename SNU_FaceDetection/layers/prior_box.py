@@ -3,11 +3,13 @@ from itertools import product as product
 from math import ceil
 
 class PriorBox(object):
-    def __init__(self, image_size):
+    def __init__(self, image_size, num_anc=3):
         super(PriorBox, self).__init__()
-        self.min_sizes = [[16, 32], [64, 128], [256, 512]]
+        if num_anc==2:
+            self.min_sizes = [[16, 32], [64, 128], [256, 512]]
+        else:
+            self.min_sizes = [[8, 16, 32], [32, 64, 128], [128, 256, 512]]
         self.steps = [8, 16, 32]
-
         self.clip = False
         self.image_size = image_size
         self.feature_maps = [[ceil(self.image_size[0]/step), ceil(self.image_size[1]/step)] for step in self.steps]

@@ -2,6 +2,9 @@ import torch
 import os
 import numpy as np
 
+if os.getcwd().endswith("Recog"):
+    os.sys.path.append(os.path.join(os.getcwd(), "SNU_FaceDetection"))
+
 from .box_utils import decode, decode_landm
 from .nms.py_cpu_nms import py_cpu_nms
 from ..layers.prior_box import PriorBox
@@ -37,7 +40,7 @@ def create_path(path):
         os.mkdir(path)
     return
 
-def decode_output(img, loc, conf, landms, device):
+def decode_output(img, loc, conf, landms, device, num_anchor):
 
     # Get scale
     _, _, H, W = img.shape
@@ -49,7 +52,7 @@ def decode_output(img, loc, conf, landms, device):
     scale_landm = scale_landm.to(device)                            
 
     # Priorbox
-    priorbox = PriorBox(image_size=(H, W))
+    priorbox = PriorBox(image_size=(H, W), num_anc=num_anchor)
     priors = priorbox.forward()
     priors = priors.to(device)
     prior_data = priors.data

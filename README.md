@@ -23,32 +23,20 @@ https://openaccess.thecvf.com/content_CVPR_2020/html/Deng_RetinaFace_Single-Shot
       year={2020}
     }
     
-[Arcface: Additive angular margin loss for deep face recognition] (CVPR 2019)
+[AdaFace: Quality Adaptive Margin for Face Recognition] (CVPR 2022)
 
-https://openaccess.thecvf.com/content_CVPR_2019/html/Deng_ArcFace_Additive_Angular_Margin_Loss_for_Deep_Face_Recognition_CVPR_2019_paper.html
+https://openaccess.thecvf.com/content/CVPR2022/html/Kim_AdaFace_Quality_Adaptive_Margin_for_Face_Recognition_CVPR_2022_paper.html
 
-    @InProceedings{Deng_2019_CVPR,
-    author = {Deng, Jiankang and Guo, Jia and Xue, Niannan and Zafeiriou, Stefanos},
-    title = {ArcFace: Additive Angular Margin Loss for Deep Face Recognition},
+@InProceedings{Kim_2022_CVPR,
+    author    = {Kim, Minchul and Jain, Anil K. and Liu, Xiaoming},
+    title     = {AdaFace: Quality Adaptive Margin for Face Recognition},
     booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-    month = {June},
-    year = {2019}
-    }
+    month     = {June},
+    year      = {2022},
+    pages     = {18750-18759}
+}
 
 
-### code: 
-**Face detection**
-
-아래 github 의 아키텍쳐를 참고하여 multi-stage로 재현함
-tinaface논문을 참고하여 iou branch를 추가함 (2024년 모델)
-
-https://github.com/biubug6/Pytorch_Retinaface
-
-**Face recognition**
-
-아래 Github code 참조
-
-https://github.com/Jaep0805/SNU_FaceRecognition
 
 # 실행 결과 예시 
 
@@ -58,30 +46,30 @@ https://github.com/Jaep0805/SNU_FaceRecognition
 
 # Environments
 ```
-conda create -n ENV_NAME python=3.7
+conda create -n face_api python=3.9
 
+conda activate face_api
 
-conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch
+conda install pytorch==1.13.1 torchvision==0.14.1 torchaudio==0.13.1 pytorch-cuda=11.6 -c pytorch -c nvidia
 
-pip install opencv-python
+pip install opencv-python tqdm
 
-pip install tqdm
+pip install numpy==1.23.5
+
+pip install scikit-learn
+
 ```
 
 
 # Directory 설명
-    |── SNU_FaceRecognition : Face image recognition code 폴더
+    |── SNU_FaceRecognition : Face image recognition 폴더
     |── data                : image & video inference용 input data가 저장되는 폴더
     |── library             : face recognition에 필요한 Library data(aligned face)를 모아놓는 폴더
     |── pipeline_tools
         ├──> recognition.py : detected face image와 library face image를 비교하는 코드
-    |── results             : image & video inference 실행 결과가 저장되는 폴더 
     |── SNU_FaceDetection   : Face detection code 폴더
-    |── utils               : 다양한 기타 사용 함수들 폴더
-    |── config.py           : 입력 argument를 관리하는 파일
+    |── detect.cfg          : 입력 argument를 관리하는 파일
     |── img_inference.py    : image inference 코드
-    |── make_library.py     : image에서 Alined face image (112 x 112)를 추출하는 코드
-    |── retinaface.yml      : 가상환경 파일
     └── video_inference.py  : video inference 코드
 
 
@@ -95,34 +83,31 @@ pip install tqdm
 
 **Face recognition**
 
-아래 링크에서 미리 학습한 ckpt 폴더(arcface_casia)를 다운 받아 "SNU_FaceRecognition/checkpoints_best" 폴더 생성 후 그 안에 배치한다.
+아래 링크에서 미리 학습한 weight(jun_adaface/Backbone_Best.pth)를 다운 받아 "SNU_FaceRecognition/ckpt" 폴더 생성 후 그 안에 배치한다.
 
-Ex. "SNU_FaceRecognition/checkpoints_best/arcface_casia/Backbone_Best.pth"
+Ex. "SNU_Face_Detect_Recog/SNU_FaceRecognition/ckpt/Backbone_Best.pth"
 
 구글 드라이브 주소 : https://drive.google.com/drive/folders/1zjp58d4T3vB6UA6ReEgzdemOoyxTZPbP?usp=sharing
 
+
 **Face detection**
 
-아래 링크에서 미리 학습한 ckpt 폴더(resnet_anc2_casT_fpn3)를 다운 받아 "Snu_FaceDetection/experiments" 폴더 생성 후 그 안에 배치한다.
+미리 학습한 ckpt 폴더(tina_iou_anc3_casT_fpn3)를 다운 받아 "SNU_FaceDetection/experiments" 폴더 안에 배치한다.
 
-구글 드라이브 주소 : https://drive.google.com/drive/folders/1bbxIfmmlhs33uBkTasL6ksnPfabFFpNI?usp=sharing
+Ex. "SNU_Face_Detect_Recog/SNU_FaceDetection/experiments/tina_iou_anc3_casT_fpn3"
 
+구글 드라이브 주소: https://drive.google.com/drive/folders/11ZVjvwctmiO9bPbnVqmn97GX8gGJj_01?usp=sharing
 
-## === make_library.py ===
-
---inference_dir 안의 이미지에서 face detection & alignment를 수행한 뒤 --inference_save_folder 에 alinged face images (112 x 112)를 저장한다.
-
-    python make_library.py --gpu_num=0 --inference_dir='sample_library' --inference_save_folder='results_sample_lib'
 
 
 ## === library (face database) ===
 
-make_library.py 로 생성한 aligned face image를 이용하여 face database가 들어있는 폴더
+aligned face image가 담긴 face database가 들어있는 폴더
 
-Ex. --library_dir = 'database'
+Ex.
 
     |── library
-        ├──> database 
+        ├──> class 
             ├──> Brad_Pitt
                 ├──> Brad_Pitt_0.jpg
                 ├──> Brad_Pitt_1.jpg
@@ -137,52 +122,59 @@ Ex. --library_dir = 'database'
 
 ## === Image Inference ===
 
-1. 학습된 face detection ckpt, face recognition ckpt 필요
-2. library 폴더 안에 face database 폴더 필요
-3. data 폴더 안에 inference할 image가 담긴 폴더 필요
+### 1) 필요조건
 
-Image inference 코드 - img_inference.py (GT 존재해서 AP 측정 가능할 때)
+    1. 학습된 face detection ckpt, face recognition ckpt 필요
 
-### 1) 데이터셋 확인
+    2. face database 필요
 
-  ./library/{--library_dir}/ 폴더 안에 library face database를 넣는다.
-
-  ./data/{--inference_dir}/ 폴더 안에 inference용 이미지를 넣는다.
 
 ### 2) 코드 실행
 
   아래 명령어를 통해 실행한다. 
  
   python img_inference.py 
+
+  img_detect.cfg 변수 설명
   
-  --gpu_num                 = {사용할 gpu index, int}
+    detection_weight_file           = Detection weight file path
 
-  --inference_dir           = {inference용 이미지가 저장된 폴더, default='sample_imgs'}
-     
-  --experiment_name         = {inference에 사용할 face detection ckpt 폴더가 저장된 폴더, default='resnet_anc2_casT_fpn3'} 
-   
-  --recog_experiment_name   = {inference에 사용할 face recognition ckpt 폴더가 저장된 폴더, default='casia_HR_LR4'}
-
-  --save_img                = {inference 결과 이미지를 저장할 지 여부, defalut=True}
-
-  --inference_save_folder   = {결과 이미지를 저장할 폴더 이름, default='inference_results'}
-
-  --infer_imsize_same       = {inference용 이미지들의 크기가 일정한지 여부, default=True}
-
-  --library_dir             = {inference에 사용할 library face database가 담긴 폴더 이름, default='class'}
-   
-   
-    python img_inference.py --gpu_num=0 --inference_dir='sample_imgs' --experiment_name='resnet_anc2_casT_fpn3' --recog_experiment_name='casia_HR_LR4' --library_dir='class'
+    recognition_weight_file         = Recognition weight file path
     
-### 3) 결과 저장
+    recognition_library_path        = face database dir path
+
+    input_dir                       = inference할 input dir path
+    
+    output_dir                      = inference 결과 이미지 저장 dir path
+    
+    gpu_num                         = 사용할 GPU Device Index
+
+    infer_imsize_same               = Inference dir 안 image 크기가 다르면 False
+
+    detect_save_library             = Face database 생성을 위한 Detected aligned image를 저장 유무
+    
+    recognition_inference_save_folder = 인식된 최종 결과 이미지 저장 dir path
+
+    recognition_save_img            = 결과 이미지 저장 유무
 
 
-   tqdm을 통해 진행 상황을 출력하며, 테스트가 종료되면 테스트에 걸린 시간과 AP 결과를 ./results/{--inference_save_folder}/{--inference_dir}_{--inference_save_folder}.txt에 저장한다
-
-        |── inference_results
-           ├──> result_images                           : --save_img=True를 줬을 시 inference 이미지를 저장
-           └──> inference_dir_inference_results.txt     : image 이름과 그 bbox, face detection 신뢰도 결과값을 결과로 저장
 
 ## === Video Inference ===
 
-Image inference와 동일하며 data 폴더 안에 inference할 video가 담긴 폴더를 --inference_dir로 설정
+  아래 명령어를 통해 실행한다. 
+ 
+  python video_inference.py 
+
+  video_detect.cfg 변수 설명
+  
+    detection_weight_file           = Detection weight file path
+
+    recognition_weight_file         = Recognition weight file path
+    
+    recognition_library_path        = face database dir path
+
+    input_video_path                = inference할 video path
+    
+    output_dir                      = inference 결과 저장 dir path
+    
+    gpu_num                         = 사용할 GPU Device Index

@@ -20,8 +20,20 @@ def parse_training_args(parser):
     parser.add_argument('--inference_dir', type=str, default="sample_widerface/images/",
                         help='widerface, etc')
 
-    parser.add_argument('--experiment_name', type=str, default='resnet_anc2_casT_fpn3',
+    parser.add_argument('--experiment_name', type=str, default='tina_iou_anc3_casT_fpn3',
                         help='Experiment Name directory')
+    
+    parser.add_argument('--model_version', type=str, default='tina',
+                        help='Model version whether retina or tina')
+    
+    parser.add_argument('--num_anchor', type=int, default=3,
+                        help='Number of anchor - should be 2 or 3')
+    
+    parser.add_argument('--landmark_loss', type=str2bool, default=False,
+                        help='whether to use landmark loss or not')
+
+    parser.add_argument('--dataset', type=str, default='widerface/',
+                        help='Dir to dataset')
 
     # Inference parameters
     parser.add_argument('--save_img', type=str2bool, default=False,
